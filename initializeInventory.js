@@ -2,6 +2,7 @@ let ingredientsInitialData = require('./data/ingredients');
 let beveragesInitialData = require('./data/beverages');
 let ingredients = require('./Utils/ingredientsUtil');
 let beverages = require('./Utils/beveragesUtil');
+let newBeverages = require('./data/newBeverages');
 
 module.exports = {
 
@@ -35,15 +36,16 @@ module.exports = {
         console.log("\nBEVERAGES DISPLAY LIST ----------------------- ");
         beverages.beverageList.forEach(item => console.log(item.name));
 
-        // Lets add some new beverage
-        console.log("\nAdding espresso as new beverage to the system");
-        beverages.addNewBeverage("espresso", {
-            "hot_water": 200,
-            "hot_milk": 40,
-            "raw_sugar": 10
-        });
-        console.log("\nAdded the espresso to the list");
-        beverages.beverageList.forEach(item => console.log(item.name))
+        this.addingNewBeverages();
 
     },
+
+    addingNewBeverages() {
+        for (let key in newBeverages) {
+            console.log(`\nAdding ${newBeverages[key].name} as new beverage to the system`);
+            beverages.addNewBeverage(newBeverages[key].name, newBeverages[key].ingredients);
+        }
+        console.log("\nUpdated List");
+        beverages.beverageList.forEach(item => console.log(item.name))
+    }
 };
