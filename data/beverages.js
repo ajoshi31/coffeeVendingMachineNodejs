@@ -1,3 +1,4 @@
+// Initial List of beverages.
 module.exports = {
     "hot_tea": {
         "hot_water": 200,
@@ -23,6 +24,11 @@ module.exports = {
         "hot_water": 100,
         "ginger_syrup": 30,
         "sugar_syrup": 50,
+        "green_mixture": 30
+    },
+    "diet_tea": {
+        "hot_water": 100,
+        "ginger_syrup": 30,
         "green_mixture": 30
     },
 };

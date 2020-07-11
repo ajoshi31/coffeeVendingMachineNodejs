@@ -6,5 +6,6 @@
     "start": "node app.js start"
   },
   "dependencies": {
+    "async": "^3.2.0"
   }
 }

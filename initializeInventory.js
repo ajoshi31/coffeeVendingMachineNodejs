@@ -1,12 +1,12 @@
 let ingredientsInitialData = require('./data/ingredients');
 let beveragesInitialData = require('./data/beverages');
-let ingredients = require('./ingredientsUtil');
-let beverages = require('./beveragesUtil');
+let ingredients = require('./Utils/ingredientsUtil');
+let beverages = require('./Utils/beveragesUtil');
 
 module.exports = {
 
     initialize() {
-        // Initializing inventory with the input
+
         for (let key  in ingredientsInitialData) {
             if (ingredientsInitialData.hasOwnProperty(key)) {
                 try {
@@ -18,7 +18,6 @@ module.exports = {
             }
         }
 
-        // Initialise Beverages List
         for (let key  in beveragesInitialData) {
             if (beveragesInitialData.hasOwnProperty(key)) {
                 try {
@@ -30,7 +29,21 @@ module.exports = {
             }
         }
 
+        console.log("\nRAW MATERIAL INVENTORY LIST -------------------- ");
         console.log(ingredients.rawItemInventory);
-        console.log(beverages.beverageList);
+
+        console.log("\nBEVERAGES DISPLAY LIST ----------------------- ");
+        beverages.beverageList.forEach(item => console.log(item.name));
+
+        // Lets add some new beverage
+        console.log("\nAdding espresso as new beverage to the system");
+        beverages.addNewBeverage("espresso", {
+            "hot_water": 200,
+            "hot_milk": 40,
+            "raw_sugar": 10
+        });
+        console.log("\nAdded the espresso to the list");
+        beverages.beverageList.forEach(item => console.log(item.name))
+
     },
 };
