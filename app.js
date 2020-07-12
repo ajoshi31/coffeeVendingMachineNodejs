@@ -1,5 +1,5 @@
-let initializeCFM = require('./initializeInventory');
-let runMain = require('./runnignMachine');
+let initializeCFM = require('./CVM/initializeInventory');
+let runMain = require('./CVM/runnignMachine');
 
 let SYSTEM_START;
 

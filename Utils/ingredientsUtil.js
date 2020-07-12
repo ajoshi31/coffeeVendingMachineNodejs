@@ -2,6 +2,7 @@ let CONSTANTS = require('./../constants');
 
 module.exports = {
     addNewIngredient(name, quantity) {
+
         if (quantity === undefined || typeof  quantity !== "number") {
             throw new Error("Quantity fields cannot be undefined and should be numeric only");
         }
