@@ -1,10 +1,11 @@
-let ingredientsInitialData = require('./../data/ingredients');
-let beveragesInitialData = require('./../data/beverages');
+let ingredientsInitialData = require('./../Data/ingredients');
+let beveragesInitialData = require('./../Data/beverages');
 let ingredients = require('./../Utils/ingredientsUtil');
 let beverages = require('./../Utils/beveragesUtil');
-let newBeverages = require('./../data/newBeverages');
+let newBeverages = require('./../Data/newBeverages');
+let ValidationError = require('./../Error/error');
 
-addingNewBeverages = function () {
+let _addingNewBeverages = function () {
     for (let key in newBeverages) {
         console.log(`\nAdding ${newBeverages[key].name} as new beverage to the system`);
         beverages.addNewBeverage(newBeverages[key].name, newBeverages[key].ingredients);
@@ -23,7 +24,12 @@ module.exports = {
                     // This function can be made on input however here we can use it as from the initialize value or test cases
                     ingredients.addNewIngredient(key, ingredientsInitialData[key]);
                 } catch (err) {
-                    console.log(err.message)
+                    if (err instanceof ValidationError) {
+                        console.log(err.message)
+                    } else {
+                        console.log(err.message)
+                    }
+
                 }
             }
         }
@@ -49,6 +55,6 @@ module.exports = {
         // A function to update the list of the new beverages,
         // We can use this member as exported in case we want o=to add new beverages form config file
         // Here I am taking as non exported member for hard coding of the file
-        addingNewBeverages();
+        _addingNewBeverages();
     }
 };

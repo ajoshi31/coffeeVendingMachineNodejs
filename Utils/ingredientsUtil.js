@@ -1,14 +1,24 @@
 let CONSTANTS = require('./../constants');
+let ValidationError = require('./../Error/error');
+
+let _validateIngredientEntry = function (name, quantity) {
+    if (quantity === undefined) {
+        throw new ValidationError("No field: quantity");
+    } else if (typeof  quantity !== "number") {
+        throw new ValidationError("Quantity should be numeric only");
+    }
+
+    if (name === undefined) {
+        throw new ValidationError("No field: quantity");
+    } else if (typeof  name !== "string") {
+        throw new ValidationError("Quantity should be string type only");
+    }
+};
 
 module.exports = {
-    addNewIngredient(name, quantity) {
+    addNewIngredient: function (name, quantity) {
 
-        if (quantity === undefined || typeof  quantity !== "number") {
-            throw new Error("Quantity fields cannot be undefined and should be numeric only");
-        }
-        if (name === undefined || typeof  name !== "string") {
-            throw new Error("Name fields cannot be undefined and should be String Only!");
-        }
+        _validateIngredientEntry(name, quantity);
 
         if (name === 'hot_water') {
             quantity = (quantity > CONSTANTS.MAX_WATER_QUANTITY ? CONSTANTS.MAX_WATER_QUANTITY : quantity);
@@ -44,3 +54,4 @@ module.exports = {
 
     rawItemInventory: []
 };
+

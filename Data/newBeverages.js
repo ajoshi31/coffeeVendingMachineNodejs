@@ -1,4 +1,4 @@
-// Initial List of beverages.
+// New List of beverages.
 module.exports = [
     {
         name: "espresso",

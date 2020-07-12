@@ -1,6 +1,6 @@
-let CONSTANTS = require('./constants');
-let ingredients = require('./Utils/ingredientsUtil');
-let beverageUtil = require('./Utils/beveragesUtil');
+let CONSTANTS = require('./../constants');
+let ingredients = require('./../Utils/ingredientsUtil');
+let beverageUtil = require('./../Utils/beveragesUtil');
 
 module.exports = {
 
@@ -29,33 +29,41 @@ module.exports = {
     },
 
     fetchingBeverages(item) {
-        // check if quantity available for beverages,
-        const tempArray = [];
-        let flag = true;
-        let shortageItem = 'nothing';
-        let beverage = beverageUtil.checkIfBeveragesExist(item);
 
-        // check each ingredient availability and reduce the amount if available and throw error if now
-        for (let key in beverage.ingredients) {
-            let beveragesIngredient = ingredients.checkIfIngredientExist(key);
-            if (beveragesIngredient.quantity < beverage.ingredients[key]) {
-                console.log(`${item} cannot be made as ${key} quantity is less than the required amount`);
-                flag = false;
-                shortageItem = key;
-                break;
-            } else {
-                tempArray.push({
-                    name: key,
-                    quantity: beveragesIngredient.quantity - beverage.ingredients[key]
-                })
+        // check if item exist in inventory if not display wrong input
+        let ifItemExist = beverageUtil.checkIfBeveragesExist(item);
+
+        if (ifItemExist) {
+            const tempArray = [];
+            let flag = true;
+            let shortageItem = 'nothing';
+            let beverage = beverageUtil.checkIfBeveragesExist(item);
+
+            // check each ingredient availability and reduce the amount if available and throw error if now
+            for (let key in beverage.ingredients) {
+                let beveragesIngredient = ingredients.checkIfIngredientExist(key);
+                if (beveragesIngredient.quantity < beverage.ingredients[key]) {
+                    console.log(`${item} cannot be made as ${key} quantity is less than the required amount`);
+                    flag = false;
+                    shortageItem = key;
+                    break;
+                } else {
+                    tempArray.push({
+                        name: key,
+                        quantity: beveragesIngredient.quantity - beverage.ingredients[key]
+                    })
+                }
             }
+            if (flag) {
+                console.log(`${item} is started being prepared`);
+                tempArray.forEach(item => {
+                    ingredients.updateIngredientValue(item.name, item.quantity)
+                });
+            }
+            return shortageItem;
+        } else {
+            console.log(item + " DOES NOT EXIST IN OUR SYSTEM WRONG ENTRY");
+            return 'wrong_entry';
         }
-        if (flag) {
-            console.log(`${item} is started being prepared`);
-            tempArray.forEach(item => {
-                ingredients.updateIngredientValue(item.name, item.quantity)
-            });
-        }
-        return shortageItem;
-    },
+    }
 };

@@ -1,4 +1,4 @@
 module.exports = {
     "MAX_QUANTITY_OF_INGREDIENTS": 1000,
-    "MAX_WATER_QUANTITY": 5000
+    "MAX_WATER_QUANTITY": 3000
 }

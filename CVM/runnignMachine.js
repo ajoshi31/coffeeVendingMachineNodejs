@@ -4,15 +4,18 @@ let CVM = require('./vendingMachineState');
 let ingredientUtil = require('./../Utils/ingredientsUtil');
 let inputs = require('./../input/input.json');
 
-let refillCheckItemCounter = {};
+// Refill Counter as private member
+let _refillCheckItemCounter = {};
 
-// Refill Login as private member
-let refillLogic = function (shortageItem) {
+// Refill Logic as private member
+let _refillLogic = function (shortageItem) {
     if (shortageItem !== 'nothing') {
-        refillCheckItemCounter[shortageItem]++;
+        if (shortageItem !== 'wrong_entry') {
+            _refillCheckItemCounter[shortageItem]++;
+        }
     }
-    if (refillCheckItemCounter[shortageItem] === 3) {
-        refillCheckItemCounter[shortageItem] = 0;
+    if (_refillCheckItemCounter[shortageItem] === 3) {
+        _refillCheckItemCounter[shortageItem] = 0;
         CVM.refillCVM(shortageItem);
     }
 };
@@ -20,7 +23,7 @@ let refillLogic = function (shortageItem) {
 module.exports = {
     running() {
 
-        // Taking input as test cases form input file
+        // Taking input as test cases from input file
         for (let i = 0; i < inputs.length; i++) {
 
             // Refilling the application at starting if anything is empty
@@ -34,7 +37,7 @@ module.exports = {
             // factor taking into consideration, I have implemented just simple logic for if any item if shows empty
             // state for three times will be refilled
             ingredientUtil.rawItemInventory.forEach(item => {
-                refillCheckItemCounter[item.name] = 0;
+                _refillCheckItemCounter[item.name] = 0;
             });
 
             // I am assuming all the time coffee is fetching something and in parallel,
@@ -42,7 +45,7 @@ module.exports = {
             async.forEachLimit(ingredientArray, n, (item, callback) => {
                 // check if item is empty more than 2 times fill it
                 let shortageItem = CVM.fetchingBeverages(item);
-                refillLogic(shortageItem);
+                _refillLogic(shortageItem);
                 callback();
 
             }, (err) => {
